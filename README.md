@@ -1,70 +1,98 @@
-# Getting Started with Create React App
+# Font Picker for React
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+**A simple, customizable font picker allowing users to preview, select and use Google Fonts on your website.**
 
-## Available Scripts
+- Simple setup
+- No dependencies
+- Automatic font download and generation of the required CSS selectors
+- Efficient font previews (full fonts are only downloaded on selection)
 
-In the project directory, you can run:
+→ **[Demo](https://font-picker.samuelmeuli.com)**
 
-### `yarn start`
+_This is the React component for the [**Font Picker**](https://github.com/samuelmeuli/font-picker) library._
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+<p align="center">
+  <img src=".github/demo.gif" width="700" alt="Font picker demo" />
+</p>
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+## Getting started
 
-### `yarn test`
+To be able to access the API, you'll need to [generate a Google Fonts API key](https://developers.google.com/fonts/docs/developer_api#APIKey).
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+### 1. Setup
 
-### `yarn build`
+Install the `font-picker-react` package using NPM:
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+```sh
+npm install font-picker-react
+```
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+### 2. Displaying the font picker
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+Add the `FontPicker` component to your React code:
 
-### `yarn eject`
+```jsx
+import React, { Component } from 'react';
+import FontPicker from 'font-picker-react';
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+export default class ExampleComponent extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      activeFontFamily: 'Open Sans',
+    };
+  }
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+  render() {
+    return (
+      <div>
+        <FontPicker
+          apiKey='YOUR_API_KEY'
+          activeFontFamily={this.state.activeFontFamily}
+          onChange={(nextFont) =>
+            this.setState({
+              activeFontFamily: nextFont.family,
+            })
+          }
+        />
+        <p className='apply-font'>The font will be applied to this text.</p>
+      </div>
+    );
+  }
+}
+```
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+### 3. Applying the selected font
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+**Add the class `"apply-font"` to all JSX elements you want to apply the selected font to.**
 
-## Learn More
+When the user selects a font, it will automatically be downloaded and applied to all elements with the `"apply-font"` class.
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+## Props
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+The following props can be passed to the `FontPicker` component:
 
-### Code Splitting
+- **`apiKey` (required)**: Google API key
+- **`activeFontFamily`**: Font that should be selected in the font picker and applied to the text. Should be stored in the component state and updated using `onChange`
+- **`onChange`**: Function which is executed when the user changes the active font. This function should update `activeFontFamily` in the component state
+- **`pickerId`**: If you have multiple font pickers on your site, you need to give them unique IDs which must be provided as a prop and appended to the `.apply-font` class names. Example: If `pickerId="main"`, use `className="apply-font-main"`
+- **`families`**: If only specific fonts shall appear in the list, specify their names in an array. Default: All font families
+- **`categories`**: Array of font categories to include in the list. Possible values: `"sans-serif", "serif", "display", "handwriting", "monospace"`. Default: All categories
+- **`scripts`**: Array of scripts which the fonts must include and which will be downloaded on font selection. Default: `["latin"]`. Example: `["latin", "greek", "hebrew"]` (see [all possible values](https://github.com/samuelmeuli/font-picker/blob/master/src/shared/types.ts))
+- **`variants`**: Array of variants which the fonts must include and which will be downloaded on font selection. Default: `["regular"]`. Example: `["regular", "italic", "700", "700italic"]` (see [all possible values](https://github.com/samuelmeuli/font-picker/blob/master/src/shared/types.ts))
+- **`filter`**: Function which must evaluate to `true` for a font to be included in the list. Default: `font => true`. Example: If `font => font.family.toLowerCase().startsWith("m")`, only fonts whose names begin with "M" will be in the list
+- **`limit`**: Maximum number of fonts to display in the list (the least popular fonts will be omitted). Default: `50`
+- **`sort`**: Sorting attribute for the font list. Possible values: `"alphabet", "popularity"`. Default: `"alphabet"`
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+_Currently, only the `activeFontFamily`, `onChange` and `sort` props are reactive._
 
-### Analyzing the Bundle Size
+## Development
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+Requirements: Node.js, Yarn
 
-### Making a Progressive Web App
+1. Clone this repository: `git clone REPO_URL`
+2. Install all dependencies: `yarn`
+3. Generate the library bundle: `yarn start`
+4. View the rendered component on `localhost:3000`
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `yarn build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+Suggestions and contributions are always welcome! Please discuss larger changes via issue before submitting a pull request.
