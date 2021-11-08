@@ -1,5 +1,6 @@
-import { FONT_FAMILY_DEFAULT, FontManager, OPTIONS_DEFAULTS } from '@samuelmeuli/font-manager';
+import FontManager from './FontManager';
 import React, { PureComponent } from 'react';
+import { FONT_FAMILY_DEFAULT, OPTIONS_DEFAULTS } from './types';
 
 /**
  * Return the fontId based on the provided font family
@@ -13,6 +14,7 @@ export default class FontPicker extends PureComponent {
     activeFontFamily: FONT_FAMILY_DEFAULT,
     onChange: (e) => {},
     pickerId: OPTIONS_DEFAULTS.pickerId,
+    pickerName: OPTIONS_DEFAULTS.pickerId,
     families: OPTIONS_DEFAULTS.families,
     categories: OPTIONS_DEFAULTS.categories,
     scripts: OPTIONS_DEFAULTS.scripts,
@@ -124,10 +126,10 @@ export default class FontPicker extends PureComponent {
     // Render font picker button and attach font list to it
     return (
       <select
-        id={`font-picker${this.fontManager.selectorSuffix}`}
+        id={this.props.pickerId}
         className='form-select'
         aria-label='Selecciona una opción'
-        name='gift4Type'
+        name={this.props.pickerName}
         defaultValue={activeFontFamily}
         onChange={this.props.onChange}
       >
