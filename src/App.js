@@ -5,7 +5,7 @@ function App() {
   return (
     <div className='App'>
       <FontPicker
-        apiKey='AIzaSyB4surBiXJB0ZW_eLo1lWet8s0eHEKUxq4'
+        apiKey=''
         activeFontFamily='Open Sans'
         pickerId='first-picker'
         pickerName='first-picker-name'
