@@ -7,13 +7,17 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = void 0;
 
-var _fontManager = require("@samuelmeuli/font-manager");
+var _FontManager = _interopRequireDefault(require("./FontManager"));
 
 var _react = _interopRequireWildcard(require("react"));
+
+var _types = require("./types");
 
 function _getRequireWildcardCache(nodeInterop) { if (typeof WeakMap !== "function") return null; var cacheBabelInterop = new WeakMap(); var cacheNodeInterop = new WeakMap(); return (_getRequireWildcardCache = function _getRequireWildcardCache(nodeInterop) { return nodeInterop ? cacheNodeInterop : cacheBabelInterop; })(nodeInterop); }
 
 function _interopRequireWildcard(obj, nodeInterop) { if (!nodeInterop && obj && obj.__esModule) { return obj; } if (obj === null || _typeof(obj) !== "object" && typeof obj !== "function") { return { default: obj }; } var cache = _getRequireWildcardCache(nodeInterop); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (key !== "default" && Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj.default = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -113,10 +117,10 @@ var FontPicker = /*#__PURE__*/function (_PureComponent) {
 
 
       return /*#__PURE__*/_react.default.createElement("select", {
-        id: "font-picker".concat(_this.fontManager.selectorSuffix),
+        id: _this.props.pickerId,
         className: "form-select",
         "aria-label": "Selecciona una opci\xF3n",
-        name: "gift4Type",
+        name: _this.props.pickerName,
         defaultValue: activeFontFamily,
         onChange: _this.props.onChange
       }, _this.generateFontList(fonts));
@@ -145,7 +149,7 @@ var FontPicker = /*#__PURE__*/function (_PureComponent) {
       sort: _sort
     }; // Initialize FontManager object
 
-    _this.fontManager = new _fontManager.FontManager(apiKey, _activeFontFamily, options, onChange);
+    _this.fontManager = new _FontManager.default(apiKey, _activeFontFamily, options, onChange);
     return _this;
   }
 
@@ -155,14 +159,15 @@ var FontPicker = /*#__PURE__*/function (_PureComponent) {
 exports.default = FontPicker;
 
 _defineProperty(FontPicker, "defaultProps", {
-  activeFontFamily: _fontManager.FONT_FAMILY_DEFAULT,
+  activeFontFamily: _types.FONT_FAMILY_DEFAULT,
   onChange: function onChange(e) {},
-  pickerId: _fontManager.OPTIONS_DEFAULTS.pickerId,
-  families: _fontManager.OPTIONS_DEFAULTS.families,
-  categories: _fontManager.OPTIONS_DEFAULTS.categories,
-  scripts: _fontManager.OPTIONS_DEFAULTS.scripts,
-  variants: _fontManager.OPTIONS_DEFAULTS.variants,
-  filter: _fontManager.OPTIONS_DEFAULTS.filter,
-  limit: _fontManager.OPTIONS_DEFAULTS.limit,
-  sort: _fontManager.OPTIONS_DEFAULTS.sort
+  pickerId: _types.OPTIONS_DEFAULTS.pickerId,
+  pickerName: _types.OPTIONS_DEFAULTS.pickerId,
+  families: _types.OPTIONS_DEFAULTS.families,
+  categories: _types.OPTIONS_DEFAULTS.categories,
+  scripts: _types.OPTIONS_DEFAULTS.scripts,
+  variants: _types.OPTIONS_DEFAULTS.variants,
+  filter: _types.OPTIONS_DEFAULTS.filter,
+  limit: _types.OPTIONS_DEFAULTS.limit,
+  sort: _types.OPTIONS_DEFAULTS.sort
 });
